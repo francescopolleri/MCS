@@ -16,8 +16,15 @@ class Particella{
 public:
 Particella(T mass=0,T charge=0):m_mass(mass),m_charge(charge){}
 
-T mass() const {return m_mass;}
-T charge() const {return m_charge;}
+T mass() const {return m_mass;};      //getter
+T charge() const {return m_charge;};
+
+void mass(T mass){          //setter
+    m_mass=mass;
+    };
+void charge(T charge){
+    m_charge=charge;
+    };
 
 inline friend std::ostream& operator<<(std::ostream& o,const Particella<T>& P){
     o<<"massa="<<" "<<P.m_mass<<"; "<<"carica="<<" "<<P.m_charge;

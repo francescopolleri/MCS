@@ -14,6 +14,13 @@ double c2=p2.charge();
 double m1=p1.mass();
 double m2=p2.mass();
 
+Particella<double> K;
+K.mass(90);
+K.charge(87);
+
+std::cout<<K<<std::endl;
+
+
 std::cout<<p1<<std::endl;
 
     return 0;
