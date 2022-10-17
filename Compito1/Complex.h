@@ -14,33 +14,19 @@ using TVector2::TVector2;
 
 Complex(TVector2 C):TVector2(C){}
 
-
-Complex operator+(Complex b){
-    double x1=this->X();
-    double y1=this->Y();
-    double x2=b.X();
-    double y2=b.Y();
-    Complex a(x1+x2,y1+y2);
-    return a;
+Complex operator-(){
+    Complex c=*this*(-1);
+    return c;
 }
 
-Complex operator-(Complex b){
-    double x1=this->X();
-    double y1=this->Y();
-    double x2=b.X();
-    double y2=b.Y();
-    Complex a(x1-x2,y1-y2);
-    return a;
-}
-
-Complex Coniugate(){
+Complex Conjugate(){     
     double x=this->X();
     double y=(-1)*this->Y();
     Complex a(x,y);
     return a;
 }
 
-Complex operator*(Complex b){
+Complex operator*(Complex b){  
     double x1=this->X();
     double y1=this->Y();
     double x2=b.X();
@@ -49,9 +35,8 @@ Complex operator*(Complex b){
     return c;
 }
 
-
-inline friend std::ostream& operator<<(std::ostream& stream,const Complex& C){
-  if(C.Y()>=0){
+inline friend std::ostream& operator<<(std::ostream& stream,const Complex& C){ 
+  if(C.Y()>0){
   stream<<"("<<C.X()<<"+"<<C.Y()<<"i)";
   return stream;
   }
