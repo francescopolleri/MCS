@@ -35,7 +35,7 @@ Complex operator-(Complex b){
 
 Complex Coniugate(){
     double x=this->X();
-    double y=this->Y()*(-1);
+    double y=(-1)*this->Y();
     Complex a(x,y);
     return a;
 }
