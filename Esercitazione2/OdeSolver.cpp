@@ -35,8 +35,11 @@ double OdeSolver::Step(){
 
 
 Vector OdeSolver::m_eqDiff(unsigned int i, double t, vector<MatPoint> p){
-  //STEP 3 Calcolo dell'accelerazione dovuta a forze interne e forze esterne
-  return Vector();
+  Vector a;
+  for(i=0,i<p.size(),i++){         //uso un vector p riempito con le forze interne fatte dal corpo j->i ,poi
+    a+=p[i]/                       //calcolo l'accelerazione del corpo i-esimo come somma di tutti i membri di p e
+  }                                //infine divido per la massa del corpo i-esimo.
+  return Vector a;
 }
 
 //Da implementare a cura dello studente
@@ -57,6 +60,7 @@ void OdeSolver::Solve(){
 
   } else if (m_method=="Rk2"){
     // STEP 5 implementare Runge Kutta al secondo ordine
+
   }
   m_t += m_h;
 

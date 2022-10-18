@@ -36,7 +36,7 @@ Vector Vector::operator-(){
 }
 
 
-Vector Vector::operator-( Vector b){
+Vector Vector::operator-(const Vector& b) const{
   Vector res;
   for (int i=0;i<3;i++){
     res.m_v[i] = m_v[i] - b.m_v[i];
@@ -44,7 +44,7 @@ Vector Vector::operator-( Vector b){
   return res;
 }
 
-Vector Vector::operator+( Vector b){
+Vector Vector::operator+(const Vector& b) const{
   Vector res;
   for (int i=0;i<3;i++){
     res.m_v[i] = m_v[i] + b.m_v[i];
@@ -52,7 +52,7 @@ Vector Vector::operator+( Vector b){
   return res;
 }
 
-double Vector::operator*( Vector b){
+double Vector::operator*(const Vector& b) const{
   double prod=0;
   for (int i=0;i<3;i++){
     prod += m_v[i]*b.m_v[i];
@@ -60,15 +60,15 @@ double Vector::operator*( Vector b){
   return prod;
 }
 
-Vector Vector::Cross( Vector b){
+Vector Vector::Cross(const Vector& b) const{
   Vector res;
-  res.m_v[0] = m_v[1]*b.m_v[2]-b.m_v[1]*m_v[2];
-  res.m_v[1] = m_v[2]*b.m_v[0]-b.m_v[2]*m_v[0];
-  res.m_v[2] = m_v[0]*b.m_v[1]-b.m_v[0]*m_v[1];
+  res.X(m_v[1]*b.m_v[2]-m_v[2]*b.m_v[1]);
+  res.Y(m_v[2]*b.m_v[0]-m_v[0]*b.m_v[2]);
+  res.Z(m_v[0]*b.m_v[1]-m_v[1]*b.m_v[0]);
   return res;
 }
 
-Vector Vector::operator*(double f){
+Vector Vector::operator*(double f) const{
   Vector res;
   for (int i=0;i<3;i++){
     res.m_v[i] = m_v[i]*f;
@@ -76,19 +76,19 @@ Vector Vector::operator*(double f){
   return res;
 }
 
-double Vector::Mod() {
+double Vector::Mod() const {
   return sqrt((*this)*(*this));
 }
 
-Vector Vector::Vers() {
+Vector Vector::Vers() const {
   return (*this)*(1/Mod());
 }
 
-Vector operator*(double f,  Vector b){
+Vector operator*(double f,  const Vector& b){
   return b*f;
 }
 
-std::ostream& operator<<(std::ostream& os,  Vector b){
+std::ostream& operator<<(std::ostream& os,  const Vector& b){
   os << "(";
   os << b.X() << ",";
   os << b.Y() << ",";

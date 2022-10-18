@@ -11,20 +11,20 @@ class Vector{
   void    Y(double);
   double  Z() const;
   void    Z(double);
-  Vector operator-();          
-  Vector operator-(Vector);    
-  Vector operator+(Vector);    
-  double  operator*(Vector);   
-  Vector Cross(Vector);        
-  Vector operator*(double);    
-  double  Mod();               
-  Vector Vers();               
+  Vector operator-();                        // - unario
+  Vector operator-(const Vector&) const;    // - binario
+  Vector operator+(const Vector&) const;    // + binario     
+  double  operator*(const Vector&) const;    // prod. scalare 
+  Vector Cross(const Vector&) const;        // prod. vettore 
+  Vector operator*(double) const;            // molt. per scalare
+  double  Mod() const;                        // modulo  (da impl.)
+  Vector Vers() const;                       // versore (da impl.)
  private:
   double m_v[3];
 };
 
-std::ostream& operator<<(std::ostream&,  Vector );
+std::ostream& operator<<(std::ostream&, const Vector & );
 std::istream& operator>>(std::istream&, Vector &);
-Vector operator*(double,  Vector );
+Vector operator*(double,const Vector& );
 
 #endif

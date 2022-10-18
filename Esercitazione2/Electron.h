@@ -1,6 +1,14 @@
-#include "Particle.h"
+#ifndef _ELECTRON
+#define _ELECTRON
+#include"Particle.h"
+#include<iostream>
 
-class Electron: public Particle{
- public:
-  Electron():Particle(9.1093826e-31,-1.60217653e-19){}
+class Electron:public Particle{
+public:
+using Particle::Particle;
+
+Electron ():Particle(9.1e-31,-1.6e-19,"elettrone"){};
+
 };
+
+#endif

@@ -19,7 +19,8 @@ using namespace std;
 
 Vector fInternal(unsigned int i,unsigned int j, double t, vector<MatPoint> p){
   //STEP 2 definizione forza interna
-  return Vector();
+  Vector F_int(p[i].Mass()*p[j].GravField(p[j].R()-p[i].R()));
+  return F_int;
 }
 
 Vector fExternal(unsigned int i, double t, vector<MatPoint> p){
@@ -28,22 +29,24 @@ Vector fExternal(unsigned int i, double t, vector<MatPoint> p){
 }
 
 int main(){ 
-  /*
+  
   TApplication app("app",0,NULL);
   gStyle->SetOptStat(0);
 
   //Lettura dei dati dal file
+  vector<MatPoint> V;
   double mass;
   double x,y,z,vx,vy,vz;
   ifstream f("fileInput");
   while (f >> mass >> vx >> x >> vy >> y >> vz >> z){
-    //...
+    V.push_back(MatPoint MP(Particle p(mass,0),Vector r(x,y,z),Vector v(vx,vy,vz)));
   }
 
-  // OdeSolver ode(...);
   // STEP 1 creazione dell'oggetto della classe OdeSolver
   //   - creazione oggetto OdeSolver vuoto, assegnazione con il metodo Punto
   //   - creazione di vector<MatPoint> e poi creazione di OdelSover
+  OdeSolver ode();
+  ode("Eulero",V);
 
   // Creazione classe OdeSolver (per la soluzione dell'equ. diff.)
   ode.fInternal = fInternal;
@@ -72,7 +75,7 @@ int main(){
   while (ode.T()<365){
     ode.Solve();
     for (unsigned int i=0;i<ode.N();i++){
-      //STEP 4 riempimento delle grafico gr[i] con le coordinate aggiornate dei pianeti
+      //STEP 4 riempimento del grafico gr[i] con le coordinate aggiornate dei pianeti
     } 
     gPad->Modified(); gPad->Update();
   }
@@ -80,6 +83,6 @@ int main(){
   app.Run(true);
 
   return 0;
-  */
+  
   
 }
