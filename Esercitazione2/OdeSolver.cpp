@@ -36,9 +36,9 @@ double OdeSolver::Step(){
 
 Vector OdeSolver::m_eqDiff(unsigned int i, double t, vector<MatPoint> p){
   Vector a;
-  for(i=0,i<p.size(),i++){         //uso un vector p riempito con le forze interne fatte dal corpo j->i ,poi
-    a+=p[i]/                       //calcolo l'accelerazione del corpo i-esimo come somma di tutti i membri di p e
-  }                                //infine divido per la massa del corpo i-esimo.
+  for(i=0,i<p.size(),i++){        
+    a+=p[i]/                       
+  }                                
   return Vector a;
 }
 

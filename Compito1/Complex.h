@@ -14,8 +14,8 @@ using TVector2::TVector2;
 
 Complex(TVector2 C):TVector2(C){}
 
-Complex operator-(){
-    Complex c=*this*(-1);
+Complex operator-(){         //non è necessario definire anche gli operatori + e - tra due complessi perchè
+    Complex c=*this*(-1);    //li prendo di default dalla classe TVector2
     return c;
 }
 

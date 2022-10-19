@@ -19,13 +19,13 @@ Complex e=a-b;
 
 Complex f=-a;
 
-std::cout<<"a="<<a<<std::endl;
-std::cout<<"b="<<b<<std::endl;
-std::cout<<"c=a+b="<<c<<std::endl;
-std::cout<<"a coniugato="<<ac<<std::endl;
-std::cout<<"d=a*b="<<d<<std::endl;
-std::cout<<"e=a-b="<<e<<std::endl;
-std::cout<<"f=-a="<<f<<std::endl;
+std::cout<<"a ="<<" "<<a<<std::endl;
+std::cout<<"b ="<<" "<<b<<std::endl;
+std::cout<<"c =a+b ="<<" "<<c<<std::endl;
+std::cout<<"a coniugato ="<<" "<<ac<<std::endl;
+std::cout<<"d =a*b ="<<" "<<d<<std::endl;
+std::cout<<"e = a-b ="<<" "<<e<<std::endl;
+std::cout<<"f = -a ="<<" "<<f<<std::endl;
 
 return 0;
 }
