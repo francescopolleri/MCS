@@ -2,6 +2,7 @@
 #include <cmath>
 #include <fstream>
 #include <vector>
+#include<functional>
 
 #include <TGraph.h>
 #include <TF1.h>
@@ -25,7 +26,8 @@ Vector fInternal(unsigned int i,unsigned int j, double t, vector<MatPoint> p){
 
 Vector fExternal(unsigned int i, double t, vector<MatPoint> p){
   //STEP 2 definizione forza esterna
-  return Vector();
+  Vector F_ext(0,0,0);
+  return F_ext;
 }
 
 int main(){ 
@@ -35,18 +37,25 @@ int main(){
 
   //Lettura dei dati dal file
   vector<MatPoint> V;
+  Particle p;
+  Vector r;
+  Vector v;
   double mass;
   double x,y,z,vx,vy,vz;
   ifstream f("fileInput");
   while (f >> mass >> vx >> x >> vy >> y >> vz >> z){
-    V.push_back(MatPoint MP(Particle p(mass,0),Vector r(x,y,z),Vector v(vx,vy,vz)));
+    v=(vx,vy,vz);
+    r=(x,y,z);
+    p=(mass,0);
+    MatPoint MP(p,r,v);
+    V.push_back(MP);
   }
 
   // STEP 1 creazione dell'oggetto della classe OdeSolver
   //   - creazione oggetto OdeSolver vuoto, assegnazione con il metodo Punto
   //   - creazione di vector<MatPoint> e poi creazione di OdelSover
-  OdeSolver ode();
-  ode("Eulero",V);
+  OdeSolver ode("Eulero",V);
+  
 
   // Creazione classe OdeSolver (per la soluzione dell'equ. diff.)
   ode.fInternal = fInternal;
@@ -76,6 +85,7 @@ int main(){
     ode.Solve();
     for (unsigned int i=0;i<ode.N();i++){
       //STEP 4 riempimento del grafico gr[i] con le coordinate aggiornate dei pianeti
+      
     } 
     gPad->Modified(); gPad->Update();
   }
