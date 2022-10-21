@@ -10,10 +10,12 @@ using namespace std;
 
 class OdeSolver{
  public:
-  OdeSolver(string method="Eulero", vector<MatPoint> p=vector<MatPoint>(0)):m_method(method),m_p(p),m_t(0),m_h(0.1){}
+  OdeSolver(string method="", vector<MatPoint> p=vector<MatPoint>(0)):m_method(method),m_p(p),m_t(0),m_h(0.1){}
   void             SetMatPoint(MatPoint tmp);
+  void             SetMethod(string method){m_method=method;}
   MatPoint         GetMatPoint(unsigned int i);
   vector<MatPoint> GetMatPoints();
+  vector<double>   GetMomentum();
   unsigned int   N();
   void           T(double t0);
   double         T();

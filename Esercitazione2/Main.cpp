@@ -20,7 +20,7 @@ using namespace std;
 
 Vector fInternal(unsigned int i,unsigned int j, double t, vector<MatPoint> p){
   //STEP 2 definizione forza interna
-  Vector F_int(p[i].Mass()*p[j].GravField(p[j].R()-p[i].R()));
+  Vector F_int(p[i].Mass()*p[j].GravField(p[i].R()));
   return F_int;
 }
 
@@ -43,21 +43,29 @@ int main(){
   double mass;
   double x,y,z,vx,vy,vz;
   ifstream f("fileInput");
+
+  OdeSolver ode;
+  ode.SetMethod("VerletV");
+  
   while (f >> mass >> vx >> x >> vy >> y >> vz >> z){
-    v=(vx,vy,vz);
-    r=(x,y,z);
-    p=(mass,0);
-    MatPoint MP(p,r,v);
-    V.push_back(MP);
+    /*r.X(x);
+    r.Y(y);
+    r.Z(z);
+    v.X(vx);
+    v.Y(vy);
+    v.Z(vz);
+    p.Charge(0);
+    p.Mass(mass);*/
+    MatPoint MP(mass,0,Vector(x,y,z),Vector(vx,vy,vz));
+    ode.SetMatPoint(MP);
   }
 
-std::cout<<V[1].R()<<" "<<V[5].V()<<std::endl;
+//std::cout<<V[1].R()<<" "<<V[1].V()<<std::endl;
+//std::cout<<V[1].Mass()<<std::endl;
 
   // STEP 1 creazione dell'oggetto della classe OdeSolver
   //   - creazione oggetto OdeSolver vuoto, assegnazione con il metodo Punto
   //   - creazione di vector<MatPoint> e poi creazione di OdelSover
-  OdeSolver ode("Eulero",V);
-  
 
   // Creazione classe OdeSolver (per la soluzione dell'equ. diff.)
   ode.fInternal = fInternal;
@@ -75,21 +83,25 @@ std::cout<<V[1].R()<<" "<<V[5].V()<<std::endl;
   int color[10]={kOrange+1,kViolet+1,kGreen+2,kAzure+1,kRed+2,kRed-7,kCyan-8,kBlue-7,kBlue+1,kBlue+2};
   for (unsigned int i=0;i<ode.N();i++){
     gr[i].SetPoint(0,ode.GetMatPoint(i).R().X(),ode.GetMatPoint(i).R().Y());
-    gr[i].SetMarkerColor(color[i]); gr[i].SetMarkerStyle(20); gr[i].SetMarkerSize(0.1);
+    gr[i].SetMarkerColor(color[i]); gr[i].SetMarkerStyle(20); 
     if (i==0) gr[i].SetMarkerSize(1);
+    else gr[i].SetMarkerSize(0.2);
     gr[i].Draw("P");
   }
   gPad->Modified(); gPad->Update();
   app.Run(true);
 
   //Run del metodo numerico + grafico in tempo reale delle coordinate e del mom. angolare totale
-  while (ode.T()<365){
+  vector<double> L(ode.N());
+  double w;
+  while (ode.T()<10000){
     ode.Solve();
     for (unsigned int i=0;i<ode.N();i++){
       //STEP 4 riempimento del grafico gr[i] con le coordinate aggiornate dei pianeti
-      
-    } 
-    gPad->Modified(); gPad->Update();
+      gr[i].SetPoint(gr[i].GetN(),ode.GetMatPoint(i).R().X(),ode.GetMatPoint(i).R().Y());
+      L[i]=ode.GetMomentum();
+    }
+  gPad->Modified(); gPad->Update();
   }
 
   app.Run(true);
