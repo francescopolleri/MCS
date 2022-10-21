@@ -51,6 +51,8 @@ int main(){
     V.push_back(MP);
   }
 
+std::cout<<V[1].R()<<" "<<V[5].V()<<std::endl;
+
   // STEP 1 creazione dell'oggetto della classe OdeSolver
   //   - creazione oggetto OdeSolver vuoto, assegnazione con il metodo Punto
   //   - creazione di vector<MatPoint> e poi creazione di OdelSover
