@@ -3,6 +3,7 @@
 #include <fstream>
 #include <vector>
 #include<functional>
+#include<iostream>
 
 #include <TGraph.h>
 #include <TF1.h>
@@ -35,6 +36,10 @@ int main(){
   TApplication app("app",0,NULL);
   gStyle->SetOptStat(0);
 
+  string method_name;
+  cout<<"Inserire nome metodo"<<endl;
+  cin>>method_name;
+
   //Lettura dei dati dal file
   vector<MatPoint> V;
   Particle p;
@@ -45,17 +50,9 @@ int main(){
   ifstream f("fileInput");
 
   OdeSolver ode;
-  ode.SetMethod("VerletV");
+  ode.SetMethod(method_name);
   
   while (f >> mass >> vx >> x >> vy >> y >> vz >> z){
-    /*r.X(x);
-    r.Y(y);
-    r.Z(z);
-    v.X(vx);
-    v.Y(vy);
-    v.Z(vz);
-    p.Charge(0);
-    p.Mass(mass);*/
     MatPoint MP(mass,0,Vector(x,y,z),Vector(vx,vy,vz));
     ode.SetMatPoint(MP);
   }
@@ -93,20 +90,34 @@ int main(){
 
   //Run del metodo numerico + grafico in tempo reale delle coordinate e del mom. angolare totale
   vector<double> L(ode.N());
-  double w;
-  while (ode.T()<10000){
+  vector<double> w(ode.N());
+  vector<double> b(ode.N());
+  vector<double> a(ode.N());
+
+  double S=100;
+  while (ode.T()<S){
     ode.Solve();
     for (unsigned int i=0;i<ode.N();i++){
       //STEP 4 riempimento del grafico gr[i] con le coordinate aggiornate dei pianeti
       gr[i].SetPoint(gr[i].GetN(),ode.GetMatPoint(i).R().X(),ode.GetMatPoint(i).R().Y());
-      L[i]=ode.GetMomentum();
+      L[i]=ode.GetMomentum(i);
+    }
+    if(ode.T()==1){
+    w=L;
+    }
+    if(ode.T()==S-1){
+    b=L;
     }
   gPad->Modified(); gPad->Update();
   }
 
+    for (unsigned int i=0;i<ode.N();i++){
+    a[i]=abs(b[i]/w[i]-1)*100;
+    cout<<a[i]<<endl;
+    }
+
   app.Run(true);
 
   return 0;
-  
   
 }

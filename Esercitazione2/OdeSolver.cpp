@@ -35,11 +35,9 @@ double OdeSolver::Step(){
   return   m_h;
 }
 
-vector<double> OdeSolver::GetMomentum(){
-  vector<double> L;
-  for(int i=0;i<m_p.size();i++){
-   L[i]=(m_p[i].R()).Mod()*(m_p[i].V()).Mod()*m_p[i].Mass();
-  }
+double OdeSolver::GetMomentum(unsigned int i=0){
+  double L;
+   L=(m_p[i].R()).Mod()*(m_p[i].V()).Mod()*m_p[i].Mass();
   return L;
 }
 
