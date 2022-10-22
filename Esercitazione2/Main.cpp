@@ -94,7 +94,7 @@ int main(){
   vector<double> b(ode.N());
   vector<double> a(ode.N());
 
-  double S=100;
+  double S=300;
   while (ode.T()<S){
     ode.Solve();
     for (unsigned int i=0;i<ode.N();i++){

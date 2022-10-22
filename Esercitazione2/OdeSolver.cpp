@@ -98,19 +98,20 @@ void OdeSolver::Solve(){
     vector<Vector> f1(m_p.size());
     vector<Vector> f2(m_p.size());
     vector<Vector> f3(m_p.size());
-    vector<double> L(m_p.size());
-
+    vector<Vector> f4(m_p.size());
+  
     for(unsigned int i=0;i<m_p.size();i++){
     f1[i] = m_h*m_p[i].V();
     f2[i] = pow(m_h,2)*0.5*m_eqDiff(i,m_t,m_p);
-    f3[i] = m_h*0.5*(m_eqDiff(i,m_t,m_p)+m_eqDiff(i,m_t+m_h,m_p));
+    f3[i] = m_h*0.5*(m_eqDiff(i,m_t,m_p));
+    f4[i] = m_h*0.5*(m_eqDiff(i,m_t+m_h,m_p)); 
     }
 
     for(unsigned int i=0;i<m_p.size();i++){ 
     m_p[i].R(m_p[i].R() + f1[i] + f2[i]);
-    m_p[i].V(m_p[i].V() + f3[i]);
+    m_p[i].V(m_p[i].V() + f3[i] + f4[i]);
     }
-    
+
   }
   m_t += m_h;
 
