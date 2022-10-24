@@ -11,6 +11,7 @@
 #include <TH2D.h>
 #include <TApplication.h>
 #include <TStyle.h>
+#include <TLegend.h>
 
 
 #include "OdeSolver.h"
@@ -57,9 +58,6 @@ int main(){
     ode.SetMatPoint(MP);
   }
 
-//std::cout<<V[1].R()<<" "<<V[1].V()<<std::endl;
-//std::cout<<V[1].Mass()<<std::endl;
-
   // STEP 1 creazione dell'oggetto della classe OdeSolver
   //   - creazione oggetto OdeSolver vuoto, assegnazione con il metodo Punto
   //   - creazione di vector<MatPoint> e poi creazione di OdelSover
@@ -75,12 +73,25 @@ int main(){
   TCanvas c("c","",10,10,500,500);
   
   //Preparazione grafico delle coordinate dei pianeti
-  double size=5; // 5 unita' astronimiche
+  double size=5; // numero unita' astronimiche
   gPad->DrawFrame(-size,-size,size,size);
-  int color[10]={kOrange+1,kViolet+1,kGreen+2,kAzure+1,kRed+2,kRed-7,kCyan-8,kBlue-7,kBlue+1,kBlue+2};
+  auto legend = new TLegend(0.1,0.7,0.2,0.9);
+  legend->AddEntry(&gr[0],"Sun","l");
+  legend->AddEntry(&gr[1],"Mercury","l");
+  legend->AddEntry(&gr[2],"Venus","l");
+  legend->AddEntry(&gr[3],"Earth","l");
+  legend->AddEntry(&gr[4],"Moon","l");
+  legend->AddEntry(&gr[5],"Mars","l");
+  legend->AddEntry(&gr[6],"Jupiter","l");
+  legend->AddEntry(&gr[7],"Saturn","l");
+  legend->AddEntry(&gr[8],"Uranus","l");
+  legend->AddEntry(&gr[9],"Neptune","l");
+  legend->AddEntry(&gr[10],"Pluto","l");
+  legend->Draw();
+  int color[11]={kOrange+1,kViolet+1,kGreen+2,kAzure+1,kRed+2,kRed-7,kCyan-8,kBlue-7,kBlue+1,kBlue+2,kGray};
   for (unsigned int i=0;i<ode.N();i++){
     gr[i].SetPoint(0,ode.GetMatPoint(i).R().X(),ode.GetMatPoint(i).R().Y());
-    gr[i].SetMarkerColor(color[i]); gr[i].SetMarkerStyle(20); 
+    gr[i].SetMarkerColor(color[i]); gr[i].SetMarkerStyle(20); gr[i].SetLineColor(color[i]);
     if (i==0) gr[i].SetMarkerSize(1);
     else gr[i].SetMarkerSize(0.2);
     gr[i].Draw("P");
@@ -94,7 +105,7 @@ int main(){
   vector<double> b(ode.N());
   vector<double> a(ode.N());
 
-  double S=300;
+  double S=365;
   while (ode.T()<S){
     ode.Solve();
     for (unsigned int i=0;i<ode.N();i++){
