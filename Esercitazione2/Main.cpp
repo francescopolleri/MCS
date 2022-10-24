@@ -67,11 +67,11 @@ int main(){
   ode.fExternal = fExternal;
   ode.Step(0.5);
 
-  
   //Creazione dei grafici (uno per pianeta)
   vector<TGraph> gr(ode.N());
   TCanvas c("c","",10,10,500,500);
-  
+  c.Divide(2,1,0.01,0.01,0);
+  c.cd(1);
   //Preparazione grafico delle coordinate dei pianeti
   double size=5; // numero unita' astronimiche
   gPad->DrawFrame(-size,-size,size,size);
@@ -96,6 +96,7 @@ int main(){
     else gr[i].SetMarkerSize(0.2);
     gr[i].Draw("P");
   }
+
   gPad->Modified(); gPad->Update();
   app.Run(true);
 
@@ -105,7 +106,7 @@ int main(){
   vector<double> b(ode.N());
   vector<double> a(ode.N());
 
-  double S=365;
+  double S=100;
   while (ode.T()<S){
     ode.Solve();
     for (unsigned int i=0;i<ode.N();i++){
@@ -122,10 +123,30 @@ int main(){
   gPad->Modified(); gPad->Update();
   }
 
-    for (unsigned int i=0;i<ode.N();i++){
-    a[i]=abs(b[i]/w[i]-1)*100;
-    cout<<a[i]<<endl;
-    }
+  for (unsigned int i=0;i<ode.N();i++){
+  a[i]=abs(b[i]/w[i]-1)*100;
+  cout<<a[i]<<endl;
+  }
+
+ app.Run(true);
+
+  vector<TGraph> gr2(ode.N());
+  c.cd(2);
+  gPad->DrawFrame(0,0,365,1e-11);
+  for(unsigned int i=0;i<ode.N();i++){
+    gr2[i].SetPoint(0,0,ode.GetMomentum(i));
+    gr2[i].SetMarkerColor(color[i]); gr2[i].SetMarkerStyle(20); gr2[i].SetLineColor(color[i]);
+    gr2[i].Draw("P");
+  }
+  gPad->Modified(); gPad->Update();
+  app.Run(true);
+
+  while(ode.T()<S){
+   for (unsigned int i=0;i<ode.N();i++){
+      gr2[i].SetPoint(gr2[i].GetN(),ode.T(),ode.GetMomentum(i));
+   }
+     gPad->Modified(); gPad->Update();
+  }
 
   app.Run(true);
 
