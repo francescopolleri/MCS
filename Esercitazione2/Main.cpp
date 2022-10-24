@@ -102,10 +102,10 @@ int main(){
       gr[i].SetPoint(gr[i].GetN(),ode.GetMatPoint(i).R().X(),ode.GetMatPoint(i).R().Y());
       L[i]=ode.GetMomentum(i);
     }
-    if(ode.T()==1){
+    if(ode.T()==0.5){
     w=L;
     }
-    if(ode.T()==S-1){
+    if(ode.T()==S-0.5){
     b=L;
     }
   gPad->Modified(); gPad->Update();
