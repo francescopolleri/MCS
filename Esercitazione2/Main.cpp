@@ -139,7 +139,7 @@ int main(){
     gr2[i].Draw("P");
   }
   gPad->Modified(); gPad->Update();
-  app.Run(true);
+  //app.Run(true);
 
   while(ode.T()<S){
    for (unsigned int i=0;i<ode.N();i++){
