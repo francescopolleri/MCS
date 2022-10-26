@@ -53,14 +53,11 @@ int main(){
   ifstream f("fileInput");
 
   OdeSolver ode;
-  OdeSolver ode1;
   ode.SetMethod(method_name);
-  ode1.SetMethod(method_name);
 
   while (f >> mass >> vx >> x >> vy >> y >> vz >> z){
     MatPoint MP(mass,0,Vector(x,y,z),Vector(vx,vy,vz));
     ode.SetMatPoint(MP);
-    ode1.SetMatPoint(MP);
   }
 
   // STEP 1 creazione dell'oggetto della classe OdeSolver
@@ -71,10 +68,6 @@ int main(){
   ode.fInternal = fInternal;
   ode.fExternal = fExternal;
   ode.Step(0.5);
-  ode1.fInternal = fInternal;
-  ode1.fExternal = fExternal;
-  ode1.Step(0.5);
-
 
   //Creazione dei grafici (uno per pianeta)
   vector<TGraph> gr(ode.N());
@@ -101,8 +94,13 @@ int main(){
   int color[11]={kOrange+1,kViolet+1,kGreen+2,kAzure+1,kRed+2,kRed-7,kCyan-8,kBlue-7,kBlue+1,kBlue+2,kGray};
 
   c.cd(1);
+ // gPad->DrawFrame(0,17.8e-9,40,18.2e-9);
   double Ltot=ode.GetMomentum();
+  cout<<"Ltot(0):"<<Ltot<<endl;
   gr3.SetPoint(0,0,Ltot);
+  gr3.SetMarkerColor(kRed);
+  gr3.SetMarkerSize(10);
+  gr3.SetTitle("Momento angolare totale vs tempo;t[s];Ltot[Kg*m^2/s]");
   gr3.Draw("AP");
 
   c.cd(2);
@@ -116,34 +114,32 @@ int main(){
   gPad->Modified(); gPad->Update();
 
   //Run del metodo numerico + grafico in tempo reale delle coordinate e del mom. angolare totale
-  double S=100;
+  double a,b,w;
+  double S=365;
   while (ode.T()<S){
     ode.Solve();
     for (unsigned int i=0;i<ode.N();i++){
       //STEP 4 riempimento del grafico gr[i] con le coordinate aggiornate dei pianeti
       gr[i].SetPoint(gr[i].GetN(),ode.GetMatPoint(i).R().X(),ode.GetMatPoint(i).R().Y());
-      if(ode.GetMomentum()>0 && ode.GetMomentum()<1){
+     // if (ode.GetMomentum()>0 && ode.GetMomentum()<1){
       gr3.SetPoint(gr[i].GetN(),ode.T(),ode.GetMomentum());
-      } 
+    //  } 
+     //cout<<ode.GetMomentum()<<endl;
     }
-  /*if(ode.T()==0.5){
-    w=L;
+   if(ode.T()==0.5){
+    a=ode.GetMomentum();
     }
     if(ode.T()==S-0.5){
-    b=L;
-    }*/
-    c.cd(1);
-  gPad->Modified(); gPad->Update();
-    c.cd(2);
-  gPad->Modified(); gPad->Update();
+    b=ode.GetMomentum();
+    }
+   c.cd(1);
+   gPad->Modified(); gPad->Update();
+   c.cd(2);
+   gPad->Modified(); gPad->Update();
   }
 
-  /*
-  for (unsigned int i=0;i<ode.N();i++){
-  a[i]=abs(b[i]/w[i]-1)*100;
-  cout<<a[i]<<endl;
-  }
-  */
+  w=abs(b/a-1)*100;
+  cout<<w<<endl;
 
  app.Run(true);
 
