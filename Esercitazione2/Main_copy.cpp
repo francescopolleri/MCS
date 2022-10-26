@@ -32,6 +32,8 @@ Vector fExternal(unsigned int i, double t, vector<MatPoint> p){
   return F_ext;
 }
 
+//double Momentum(unsigned int i,)
+
 int main(){ 
   
   TApplication app("app",0,NULL);
@@ -76,9 +78,10 @@ int main(){
 
   //Creazione dei grafici (uno per pianeta)
   vector<TGraph> gr(ode.N());
+  TGraph gr3;
   TCanvas c("c","",10,10,500,500);
   c.Divide(2,1,0.01,0.01,0);
-  c.cd(1);
+  c.cd(2);
   //Preparazione grafico delle coordinate dei pianeti
   double size=5; // numero unita' astronimiche
   gPad->DrawFrame(-size,-size,size,size);
@@ -96,6 +99,13 @@ int main(){
   legend->AddEntry(&gr[10],"Pluto","l");
   legend->Draw();
   int color[11]={kOrange+1,kViolet+1,kGreen+2,kAzure+1,kRed+2,kRed-7,kCyan-8,kBlue-7,kBlue+1,kBlue+2,kGray};
+
+  c.cd(1);
+  double Ltot=ode.GetMomentum();
+  gr3.SetPoint(0,0,Ltot);
+  gr3.Draw("AP");
+
+  c.cd(2);
   for (unsigned int i=0;i<ode.N();i++){
     gr[i].SetPoint(0,ode.GetMatPoint(i).R().X(),ode.GetMatPoint(i).R().Y());
     gr[i].SetMarkerColor(color[i]); gr[i].SetMarkerStyle(20); gr[i].SetLineColor(color[i]);
@@ -103,60 +113,39 @@ int main(){
     else gr[i].SetMarkerSize(0.2);
     gr[i].Draw("P");
   }
-
   gPad->Modified(); gPad->Update();
-  app.Run(true);
 
   //Run del metodo numerico + grafico in tempo reale delle coordinate e del mom. angolare totale
-  vector<double> L(ode.N());
-  vector<double> w(ode.N());
-  vector<double> b(ode.N());
-  vector<double> a(ode.N());
-
   double S=100;
   while (ode.T()<S){
     ode.Solve();
     for (unsigned int i=0;i<ode.N();i++){
       //STEP 4 riempimento del grafico gr[i] con le coordinate aggiornate dei pianeti
       gr[i].SetPoint(gr[i].GetN(),ode.GetMatPoint(i).R().X(),ode.GetMatPoint(i).R().Y());
-      L[i]=ode.GetMomentum(i);
+      if(ode.GetMomentum()>0 && ode.GetMomentum()<1){
+      gr3.SetPoint(gr[i].GetN(),ode.T(),ode.GetMomentum());
+      } 
     }
-    if(ode.T()==0.5){
+  /*if(ode.T()==0.5){
     w=L;
     }
     if(ode.T()==S-0.5){
     b=L;
-    }
+    }*/
+    c.cd(1);
+  gPad->Modified(); gPad->Update();
+    c.cd(2);
   gPad->Modified(); gPad->Update();
   }
 
+  /*
   for (unsigned int i=0;i<ode.N();i++){
   a[i]=abs(b[i]/w[i]-1)*100;
   cout<<a[i]<<endl;
   }
+  */
 
  app.Run(true);
-
-  vector<TGraph> gr2(ode1.N());
-  c.cd(2);
-  gPad->DrawFrame(0,0,365,1e-11);
-  for(unsigned int i=0;i<ode1.N();i++){
-    gr2[i].SetPoint(0,0,ode1.GetMomentum(i));
-    gr2[i].SetMarkerColor(color[i]); gr2[i].SetMarkerStyle(20); gr2[i].SetLineColor(color[i]);
-    gr2[i].Draw("P");
-  }
-  gPad->Modified(); gPad->Update();
-  app.Run(true);
-
-  while(ode1.T()<S){
-  ode1.Solve();
-   for (unsigned int i=0;i<ode1.N();i++){
-      gr2[i].SetPoint(gr2[i].GetN(),i,ode1.GetMomentum(i));
-   }
-     gPad->Modified(); gPad->Update();
-  }
-
-  app.Run(true);
 
   return 0;
   

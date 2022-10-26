@@ -24,3 +24,7 @@ elif a==2:
 for word in ('qwerty','uiop','asdf'):
     print('%s' %word)
 
+def sum(x=1,y=2,z=3):
+    return x+y+z
+
+print(sum(12,11,9))

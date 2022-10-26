@@ -35,10 +35,11 @@ double OdeSolver::Step(){
   return   m_h;
 }
 
-double OdeSolver::GetMomentum(unsigned int i=0){
+double OdeSolver::GetMomentum(){
   double L;
-   //L=(m_p[i].R()).Mod()*(m_p[i].V()).Mod()*m_p[i].Mass();
-   L=(m_p[i].R().Cross(m_p[i].V())*m_p[i].Mass()).Mod();
+  for(unsigned int i=0;i<this->N();i++){
+  L = L + (m_p[i].R().Cross(m_p[i].V())*m_p[i].Mass()).Mod();
+  }
   return L;
 }
 

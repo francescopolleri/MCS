@@ -15,7 +15,7 @@ class OdeSolver{
   void             SetMethod(string method){m_method=method;}
   MatPoint         GetMatPoint(unsigned int i);
   vector<MatPoint> GetMatPoints();
-  double           GetMomentum(unsigned int i);
+  double           GetMomentum();
   unsigned int   N();
   void           T(double t0);
   double         T();

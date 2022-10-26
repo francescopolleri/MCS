@@ -144,7 +144,7 @@ int main(){
   while(ode.T()<S){
   ode.Solve();
    for (unsigned int i=0;i<ode.N();i++){
-      gr2[i].SetPoint(gr2[i].GetN(),i,ode.GetMomentum(i));
+      gr2[i].SetPoint(gr2[i].GetN(),gr2[i].GetN(),ode.GetMomentum(i));
    }
      gPad->Modified(); gPad->Update();
   }
