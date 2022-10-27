@@ -41,7 +41,7 @@ int main(){
 
   string method_name;
   cout<<"What method do you want to use?"<<endl;
-  cout<<"Enter 'ELR' for Eulero,'RK2' for Runge-Kutta2 and 'VV' for Verltet velocity"<<endl;
+  cout<<"(Enter 'ELR' for Eulero,'RK2' for Runge-Kutta2 and 'VV' for Verltet velocity)"<<endl;
   cin>>method_name;
 
   //Lettura dei dati dal file
@@ -98,7 +98,7 @@ int main(){
 
   c.cd(1);
   double Ltot0=ode.GetMomentum();
-  gPad->DrawFrame(0,53e-9,400,55e-9);
+  gPad->DrawFrame(0,53.85e-9,380,54.15e-9);
   gr3.SetPoint(0,0,Ltot0);
   gr3.SetMarkerColor(kRed);
   gr3.SetMarkerSize(10);
@@ -141,8 +141,8 @@ int main(){
    gPad->Modified(); gPad->Update();
   }
 
-  w=abs(b/a-1)*100;
-  cout<<w<<endl;
+ // w=abs(b/a-1)*100;
+ // cout<<"La variazione del momento angolare tra inizio e fine ciclo è pari al "<<w<<"%"<<endl;
 
  app.Run(true);
 
