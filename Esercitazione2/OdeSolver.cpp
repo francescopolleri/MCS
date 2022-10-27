@@ -38,7 +38,7 @@ double OdeSolver::Step(){
 double OdeSolver::GetMomentum(){
   double L;
   for(unsigned int i=0;i<this->N();i++){
-  L = L + (m_p[i].R().Cross(m_p[i].V())*m_p[i].Mass()).Mod();
+  L += (m_p[i].R().Cross(m_p[i].V())*m_p[i].Mass()).Mod();
   }
   return L;
 }
@@ -55,7 +55,7 @@ return a;
 //Da implementare a cura dello studente
 void OdeSolver::Solve(){
 
-  if (m_method=="Eulero"){
+  if (m_method=="ELR"){
     vector<Vector>  k1(m_p.size());
     vector<Vector>  w1(m_p.size());
     for (unsigned int i=0;i<m_p.size();i++){
@@ -96,7 +96,7 @@ void OdeSolver::Solve(){
       m_p[i].V(m_p[i].V() + w2[i]);
     }
     
-  } else if(m_method=="VerletV"){
+  } else if(m_method=="VV"){
     vector<Vector> f1(m_p.size());
     
     auto mp(m_p);

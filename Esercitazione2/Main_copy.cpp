@@ -40,7 +40,8 @@ int main(){
   gStyle->SetOptStat(0);
 
   string method_name;
-  cout<<"Inserire nome metodo"<<endl;
+  cout<<"What method do you want to use?"<<endl;
+  cout<<"Enter 'ELR' for Eulero,'RK2' for Runge-Kutta2 and 'VV' for Verltet velocity"<<endl;
   cin>>method_name;
 
   //Lettura dei dati dal file
@@ -72,8 +73,10 @@ int main(){
   //Creazione dei grafici (uno per pianeta)
   vector<TGraph> gr(ode.N());
   TGraph gr3;
+
   TCanvas c("c","",10,10,500,500);
   c.Divide(2,1,0.01,0.01,0);
+
   c.cd(2);
   //Preparazione grafico delle coordinate dei pianeti
   double size=5; // numero unita' astronimiche
@@ -94,14 +97,13 @@ int main(){
   int color[11]={kOrange+1,kViolet+1,kGreen+2,kAzure+1,kRed+2,kRed-7,kCyan-8,kBlue-7,kBlue+1,kBlue+2,kGray};
 
   c.cd(1);
- // gPad->DrawFrame(0,17.8e-9,40,18.2e-9);
-  double Ltot=ode.GetMomentum();
-  cout<<"Ltot(0):"<<Ltot<<endl;
-  gr3.SetPoint(0,0,Ltot);
+  double Ltot0=ode.GetMomentum();
+  gPad->DrawFrame(0,53e-9,400,55e-9);
+  gr3.SetPoint(0,0,Ltot0);
   gr3.SetMarkerColor(kRed);
   gr3.SetMarkerSize(10);
   gr3.SetTitle("Momento angolare totale vs tempo;t[s];Ltot[Kg*m^2/s]");
-  gr3.Draw("AP");
+  gr3.Draw("P");
 
   c.cd(2);
   for (unsigned int i=0;i<ode.N();i++){
@@ -121,15 +123,16 @@ int main(){
     for (unsigned int i=0;i<ode.N();i++){
       //STEP 4 riempimento del grafico gr[i] con le coordinate aggiornate dei pianeti
       gr[i].SetPoint(gr[i].GetN(),ode.GetMatPoint(i).R().X(),ode.GetMatPoint(i).R().Y());
-     // if (ode.GetMomentum()>0 && ode.GetMomentum()<1){
-      gr3.SetPoint(gr[i].GetN(),ode.T(),ode.GetMomentum());
-    //  } 
+
+      if (ode.GetMomentum()<100*Ltot0 && ode.GetMomentum()>0){  //Faccio il grafico del momento angolare solo se i valori del momento che ottengo durante il ciclo sono al
+      gr3.SetPoint(gr[i].GetN(),ode.T(),ode.GetMomentum());     //massimo 2 ordini di grandezza più grandi del momento calcolato prima del ciclo e solo se i valori che ottengo
+      }                                                         //sono positivi in quanto sto calcolando il modulo di un vettore.
      //cout<<ode.GetMomentum()<<endl;
     }
-   if(ode.T()==0.5){
+   if(ode.T()==ode.Step()){
     a=ode.GetMomentum();
     }
-    if(ode.T()==S-0.5){
+    if(ode.T()==S-ode.Step()){
     b=ode.GetMomentum();
     }
    c.cd(1);
