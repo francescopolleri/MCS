@@ -36,11 +36,11 @@ double OdeSolver::Step(){
 }
 
 double OdeSolver::GetMomentum(){
-  double L;
+  Vector L;
   for(unsigned int i=0;i<this->N();i++){
-  L += (m_p[i].R().Cross(m_p[i].V())*m_p[i].Mass()).Mod();
+  L = L +(m_p[i].R().Cross(m_p[i].V())*m_p[i].Mass());
   }
-  return L;
+  return L.Mod();
 }
 
 

@@ -96,9 +96,9 @@ int main(){
   int color[11]={kOrange+1,kViolet+1,kGreen+2,kAzure+1,kRed+2,kRed-7,kCyan-8,kBlue-7,kBlue+1,kBlue+2,kGray};
 
   double Ltot0=ode.GetMomentum();  //Calcolo il momento totale prima del ciclo
-
+  cout<<Ltot0<<endl;
   c.cd(1);
-  gPad->DrawFrame(0,53.9e-9,380,54.1e-9);
+  gPad->DrawFrame(0,1.79e-8,380,1.81e-8);
   gr3.SetPoint(0,0,Ltot0);
   gr3.SetMarkerColor(kRed);
   gr3.SetMarkerSize(10);
