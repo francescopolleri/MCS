@@ -37,8 +37,8 @@ double OdeSolver::Step(){
 
 double OdeSolver::GetMomentum(){
   Vector L;
-  for(unsigned int i=0;i<this->N();i++){
-  L = L +(m_p[i].R().Cross(m_p[i].V())*m_p[i].Mass());
+  for(unsigned int i=1;i<this->N();i++){
+  L = L +((m_p[i].R()-m_p[0].R()).Cross(m_p[i].V())*m_p[i].Mass());
   }
   return L.Mod();
 }
