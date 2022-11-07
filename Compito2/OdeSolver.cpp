@@ -106,7 +106,7 @@ void OdeSolver::Solve(){
     }
 
     for(unsigned int i=0;i<m_p.size();i++){ 
-    m_p[i].R(m_p[i].R() + m_h*m_p[i].V() + 0.5*pow(m_h,2)*m_eqDiff(i,m_t,m_p));
+    m_p[i].R(m_p[i].R() + m_h*m_p[i].V() + 0.5*pow(m_h,2)*m_eqDiff(i,m_t,mp));  //m_p
     m_p[i].V(m_p[i].V() + 0.5*m_h*(m_eqDiff(i,m_t,m_p)+f1[i]));
     }
 

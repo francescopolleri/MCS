@@ -99,8 +99,8 @@ int main(){
   cout<<Ltot0<<endl;
   c.cd(1);
   //gPad->DrawFrame(0,1.79e-8,380,1.81e-8);
-  gPad->DrawFrame(0,0.9999,380,1.0001);
-  gr3.SetPoint(0,0,1);
+  gPad->DrawFrame(0,-1e-12,380,1e-12);
+  gr3.SetPoint(0,0,0);
   gr3.SetMarkerColor(kRed);
   gr3.SetMarkerSize(10);
   gr3.SetTitle("Momento angolare totale vs tempo;t[s];Ltot[Kg*m^2/s]");
@@ -126,7 +126,7 @@ int main(){
       gr[i].SetPoint(gr[i].GetN(),ode.GetMatPoint(i).R().X(),ode.GetMatPoint(i).R().Y());
 
       //if (ode.GetMomentum()<100*Ltot0 && ode.GetMomentum()>0){  //Faccio il grafico del momento angolare solo se i valori del momento che ottengo durante il ciclo sono al
-      gr3.SetPoint(gr[i].GetN(),ode.T(),ode.GetMomentum()/Ltot0);     //massimo 2 ordini di grandezza più grandi del momento calcolato prima del ciclo e solo se i valori che ottengo
+      gr3.SetPoint(gr[i].GetN(),ode.T(),ode.GetMomentum()-Ltot0);     //massimo 2 ordini di grandezza più grandi del momento calcolato prima del ciclo e solo se i valori che ottengo
       //}                                                         //sono positivi in quanto sto calcolando il modulo di un vettore.
     }
    if(ode.T()==ode.Step()){
