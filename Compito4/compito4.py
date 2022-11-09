@@ -93,6 +93,8 @@ for i in range(len(epsilon)):
     I = trapz(psi2,xi)
     psi = psi/np.sqrt(I)
     psi2 = psi2/I
+    H = trapz(psi2,xi)
+    print('Epsilon =',f'{epsilon[i]}','--> Integrale di |psi(xi)|^2 =',' ',H)
     
     ax[i, 0].plot(xi, psi,color=Color[i],label=f'$\\varepsilon = {epsilon[i]}$')
     ax[i,0].set_ylabel('$\\psi(\\xi)$')
