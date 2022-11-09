@@ -78,57 +78,27 @@ while (energy<Emax):
     energy+=delta_e
     
 print('Per valori di Epsilon compresi tra 0 e 5 quelli che corrispondono a stati fisici sono:')
-print(Epsilon[0])
-print(Epsilon[1])
-print(Epsilon[2])
-print(Epsilon[3])
-print(Epsilon[4])
+for i in range(len(Epsilon)): print(f'{Epsilon[i]}')
 
 
 #SECONDA PARTE
 
 epsilon=[0.5,1.5,2.5]
+Color=['r','b','y']
 
-f0=numerov(0,n-1,epsilon[0])
-f1=numerov(0,n-1,epsilon[1])
-f2=numerov(0,n-1,epsilon[2])
-
-g0=abs(f0)**2
-g1=abs(f1)**2
-g2=abs(f2)**2
-
-I0=trapz(abs(f0)**2,xi)
-I1=trapz(abs(f1)**2,xi)
-I2=trapz(abs(f2)**2,xi)
-
-f0N=f0/math.sqrt(I0)
-f1N=f1/math.sqrt(I1)
-f2N=f2/math.sqrt(I2)
-
-g0N=g0/I0
-g1N=g1/I1
-g2N=g2/I2
-
-fig,((ax0,ax1),(ax2,ax3),(ax4,ax5))=plt.subplots(3,2)
-plt.subplots_adjust(bottom=0.1, right=1.8, top=2.5)
-ax0.plot(xi,f0N,color='b')
-ax0.set_title('psi(xi);Eps=0.5')
-ax1.plot(xi,g0N,color='b')
-ax1.set_title('|psi(xi)^2|;Eps=0.5')
-ax2.plot(xi,f1N,color='g')
-ax2.set_title('psi(xi);Eps=1.5')
-ax3.plot(xi,g1N,color='g')
-ax3.set_title('|psi(xi)^2|;Eps=1.5')
-ax4.plot(xi,f2N,color='r')
-ax4.set_title('psi(xi);Eps=2.5')
-ax5.plot(xi,g2N,color='r')
-ax5.set_title('|psi(xi)^2|;Eps=2.5')
-
-H0=trapz(g0N,xi)
-H1=trapz(g1N,xi)
-H2=trapz(g2N,xi)
-
-print(H0,H1,H2)
-
+fig, ax = plt.subplots(len(epsilon),2, sharex='col',figsize=(12,5*len(epsilon)))
+for i in range(len(epsilon)):
+    psi = numerov(0,n-1,epsilon[i])
+    psi2 = np.abs(psi)**2
+    I = trapz(psi2,xi)
+    psi = psi/np.sqrt(I)
+    psi2 = psi2/I
+    
+    ax[i, 0].plot(xi, psi,color=Color[i],label=f'$\\varepsilon = {epsilon[i]}$')
+    ax[i,0].set_ylabel('$\\psi(\\xi)$')
+    ax[i,0].legend()
+    ax[i,1].plot(xi,psi2,color=Color[i],label=f'$\\varepsilon = {epsilon[i]}$')
+    ax[i,1].set_ylabel('$|\\psi(\\xi)|^2$')
+    ax[i,1].legend()
 
 
