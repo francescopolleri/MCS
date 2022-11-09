@@ -71,8 +71,8 @@ while (energy<Emax):
             psiTot[i]=psir[i]
 
         plt.plot(xi,psiTot)
-        plt.xlabel('xi')
-        plt.ylabel('psi(xi)')
+        plt.xlabel('$\\xi$')
+        plt.ylabel('$\\psi(\\xi)$')
         plt.title('Funzione d onda non normalizzata')
         plt.show()
     energy+=delta_e
@@ -86,7 +86,6 @@ for i in range(len(Epsilon)): print(f'{Epsilon[i]}')
 epsilon=[0.5,1.5,2.5]
 Color=['r','b','y']
 
-## Ho modificato le dimensioni che altrimenti viene così grosso che non si riesce a vedere su uno schermo del portatile.
 fig, ax = plt.subplots(len(epsilon),2, sharex='col',figsize=(9,3*len(epsilon))) 
 for i in range(len(epsilon)):
     psi = numerov(0,n-1,epsilon[i])
@@ -104,8 +103,4 @@ for i in range(len(epsilon)):
     ax[i,1].set_ylabel('$|\\psi(\\xi)|^2$')
     ax[i,1].legend()
 
-'''
-E' necessario altrimenti non ti motra nessun plot, a 
-differenza dei notebook dove puoi anche non metterlo
-'''
 plt.show() 
