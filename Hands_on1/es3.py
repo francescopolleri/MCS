@@ -13,9 +13,9 @@ nsph=0.
 ni=0.
 r=0
 for i in range (0,n):
-    x=2*R*rnd.Rndm()-1
-    y=2*R*rnd.Rndm()-1
-    z=2*R*rnd.Rndm()-1
+    x=2*R*rnd.Rndm()-R
+    y=2*R*rnd.Rndm()-R
+    z=2*R*rnd.Rndm()-R
     if x*x+y*y+z*z<R*R:
         nsph=nsph+1
         if x**2+y**2>(R**2/4):
