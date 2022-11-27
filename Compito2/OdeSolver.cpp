@@ -35,10 +35,10 @@ double OdeSolver::Step(){
   return   m_h;
 }
 
-double OdeSolver::GetMomentum(){
+double OdeSolver::GetMomentum(){   //Faccio in modo da non considerare il Sole che è il pianeta 0
   Vector L;
   for(unsigned int i=1;i<this->N();i++){
-  L = L +((m_p[i].R()-m_p[0].R()).Cross(m_p[i].V())*m_p[i].Mass());
+  L = L +((m_p[i].R()-m_p[0].R()).Cross(m_p[i].V()-m_p[0].V())*m_p[i].Mass());
   }
   return L.Mod();
 }
@@ -100,14 +100,64 @@ void OdeSolver::Solve(){
     vector<Vector> f1(m_p.size());
     
     auto mp(m_p);
-    
-    for(unsigned int i=0;i<m_p.size();i++){
-     f1[i] = m_eqDiff(i,m_t,mp);
-    }
 
     for(unsigned int i=0;i<m_p.size();i++){ 
-    m_p[i].R(m_p[i].R() + m_h*m_p[i].V() + 0.5*pow(m_h,2)*m_eqDiff(i,m_t,mp));  //m_p
-    m_p[i].V(m_p[i].V() + 0.5*m_h*(m_eqDiff(i,m_t,m_p)+f1[i]));
+    m_p[i].R(m_p[i].R() + m_h*m_p[i].V() + 0.5*pow(m_h,2)*m_eqDiff(i,m_t,mp));  //E' importante che qui ci sia mp
+    }
+    for(unsigned int i=0;i<m_p.size();i++){
+      auto An = m_eqDiff(i,m_t,mp);
+      auto An1 = m_eqDiff(i,m_t,m_p);
+      m_p[i].V(m_p[i].V()+m_h/2*(An+An1));
+    }
+
+  } else if(m_method=="RK4"){
+    vector<Vector>  k1(m_p.size());
+    vector<Vector>  w1(m_p.size());
+    vector<Vector>  k2(m_p.size());
+    vector<Vector>  w2(m_p.size());
+    vector<Vector>  k3(m_p.size());
+    vector<Vector>  w3(m_p.size());
+    vector<Vector>  k4(m_p.size());
+    vector<Vector>  w4(m_p.size());
+
+    for (unsigned int i=0;i<m_p.size();i++){
+     k1[i] = m_h*m_p[i].V();
+     w1[i] = m_h*m_eqDiff(i,m_t,m_p);
+    }
+    vector<MatPoint> matp1=m_p;
+    for (unsigned int i=0;i<m_p.size();i++){
+     matp1[i].R(m_p[i].R()+k1[i]*0.5);
+     matp1[i].V(m_p[i].V()+w1[i]*0.5);
+    }
+
+    for (unsigned int i=0;i<m_p.size();i++){
+     k2[i] = m_h*matp1[i].V();
+     w2[i] = m_h*m_eqDiff(i,m_t+m_h/2,matp1);
+    }
+    vector<MatPoint> matp2=matp1;
+    for (unsigned int i=0;i<m_p.size();i++){
+      matp2[i].R(m_p[i].R() + k2[i]*0.5);
+      matp2[i].V(m_p[i].V() + w2[i]*0.5);
+    }
+
+    for (unsigned int i=0;i<m_p.size();i++){
+      k3[i]=m_h*matp2[i].V();
+      w3[i]=m_h*m_eqDiff(i,m_t+m_h/2,matp2);
+    }
+    vector<MatPoint> matp3=matp2;
+    for (unsigned int i=0;i<m_p.size();i++){
+      matp3[i].R(m_p[i].R()+k3[i]);
+      matp3[i].V(m_p[i].V()+w3[i]);
+    }
+
+    for (unsigned int i=0;i<m_p.size();i++){
+      k4[i]=m_h*matp3[i].V();
+      w4[i]=m_h*m_eqDiff(i,m_t+m_h/2,matp3);
+    }
+    
+    for (unsigned int i=0;i<m_p.size();i++){
+      m_p[i].R(m_p[i].R()+k1[i]*(1/6.)+k2[i]*(1/3.)+k3[i]*(1/3.)+k4[i]*(1/6.));
+      m_p[i].V(m_p[i].V()+w1[i]*(1/6.)+w2[i]*(1/3.)+w3[i]*(1/3.)+w4[i]*(1/6.));
     }
 
   }

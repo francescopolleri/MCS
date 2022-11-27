@@ -40,7 +40,7 @@ int main(){
 
   string method_name;
   cout<<"What method do you want to use?"<<endl;
-  cout<<"(Enter 'ELR' for Eulero,'RK2' for Runge-Kutta2 and 'VV' for Verltet velocity)"<<endl;
+  cout<<"(Enter 'ELR' for Eulero,'RK2' for Runge-Kutta2,'RK4' for Runge-Kutta4 and 'VV' for Verltet velocity)"<<endl;
   cin>>method_name;
 
   //Lettura dei dati dal file
