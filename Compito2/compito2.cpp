@@ -126,7 +126,7 @@ int main(){
       gr[i].SetPoint(gr[i].GetN(),ode.GetMatPoint(i).R().X(),ode.GetMatPoint(i).R().Y());
 
       //if (ode.GetMomentum()<100*Ltot0 && ode.GetMomentum()>0){  //Faccio il grafico del momento angolare solo se i valori del momento che ottengo durante il ciclo sono al
-      gr3.SetPoint(gr[i].GetN(),ode.T(),ode.GetMomentum()-Ltot0);     //massimo 2 ordini di grandezza più grandi del momento calcolato prima del ciclo e solo se i valori che ottengo
+      gr3.SetPoint(gr[i].GetN(),ode.T(),ode.GetMomentum()-Ltot0); //massimo 2 ordini di grandezza più grandi del momento calcolato prima del ciclo e solo se i valori che ottengo
       //}                                                         //sono positivi in quanto sto calcolando il modulo di un vettore.
     }
    if(ode.T()==ode.Step()){
