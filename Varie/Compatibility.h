@@ -19,6 +19,24 @@ double Comp(){
     return abs(m_a-m_b)-3*sqrt(pow(m_ea,2)+pow(m_eb,2));
 }
 
+double BestValue(){
+    if (this->Comp()<0){
+     return (m_a/pow(m_ea,2)+m_b/pow(m_eb,2))/(1/pow(m_ea,2)+1/pow(m_eb,2));
+   }
+   else{
+    return 0;
+   }
+}
+
+double BestValueError(){
+    if (this->Comp()<0){
+      return pow(m_ea*m_eb,2)/(pow(m_ea,2)+pow(m_eb,2));
+    }
+    else{
+        return 0;
+    }
+}
+
 inline friend std::ostream& operator<<(std:: ostream& o, Compatibility& C){
     if(C.Comp()<0){
         o<<"Valori compatibili";
@@ -29,8 +47,7 @@ inline friend std::ostream& operator<<(std:: ostream& o, Compatibility& C){
 }
 
 private:
+
 double m_a,m_b,m_ea,m_eb;
-
-
 
 };
