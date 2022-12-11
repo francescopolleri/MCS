@@ -7,7 +7,7 @@ namespace data{
 void logl(int &npar, double *gin, double &f, double *par, int iflag){  
   f = 0.0;
   // Definisco la logl
-  for (int i=0;i<data::x.size();i++){  //la pdf e` 1/tau*exp(-t/tau)  tau e` il parametro[0]
+  for (int i=0;i<data::x.size();i++){     //la pdf e` 1/tau*exp(-t/tau)  tau e` il parametro[0]
     f += log(par[0]) + data::x[i]/par[0]; //in realta` stiamo minimizzando -logL
   }
 }
@@ -21,7 +21,7 @@ void fitexp(){
     data::x.push_back(x);
     h->Fill(x);
   }
-  TMinuit minuit(1);
+  TMinuit minuit(1);  //1 è il numero di parametri
   minuit.SetFCN(logl);
   minuit.SetErrorDef(0.5); //nel caso usassimo MINOS
   
