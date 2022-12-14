@@ -2,7 +2,7 @@ using namespace std;
 
 void fitexpTTree(){
 
-  ifstream file("exp.dat");
+  ifstream file("exp.txt");
   double x;
   TH1D *h = new TH1D("h","",40,0,10);
   while (file >> x){
@@ -10,7 +10,7 @@ void fitexpTTree(){
   }
 
   TTree *t = new TTree();
-  t->ReadFile("exp.dat","t/D");
+  t->ReadFile("exp.txt","t/D");
 
   TF1 *fe = new TF1("fe","[0]*1/[1]*exp(-x/[1])",0,10);
   fe->FixParameter(0,1.);

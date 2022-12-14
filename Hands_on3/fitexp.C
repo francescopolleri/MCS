@@ -14,7 +14,7 @@ void logl(int &npar, double *gin, double &f, double *par, int iflag){
 
 void fitexp(){
 
-  ifstream file("exp.dat");
+  ifstream file("exp.txt");
   double x;
   TH1D *h = new TH1D("h","",40,0,10);
   while (file >> x){

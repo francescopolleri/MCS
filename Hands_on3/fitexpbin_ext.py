@@ -10,20 +10,20 @@ def flogl(tau,norm):
         ni=h.GetBinContent(i)
         xmin=h.GetBinLowEdge(i)
         xmax=h.GetBinLowEdge(i)+h.GetBinWidth(i)
-        pi = exp(-xmin/tau)-exp(-xmax/tau)
+        pi = np.exp(-xmin/tau)-np.exp(-xmax/tau)
         mui=norm*pi
-        val = val-ni*log(mui)-mui
+        val = val-ni*np.log(mui)-mui
 
     return val
 
 #Main
 h  = TH1D("h","",20,0,10)
-for line in open("exp.dat"):
+for line in open("exp.txt"):
     h.Fill(float(line))
 
 #m = Minuit(flogl,tau=2,norm=1000,errordef=0.5,print_level=3) #OLTRE A TAU VOGLIAMO FITTARE ANCHE IL NUMERO DI ENTRATE
 
-m = Minuit(flogl,tau=2,norm=1000)
+m = Minuit(flogl, tau=2, norm=1000)
 m.errordef=0.5
 m.print_level=2
 
@@ -46,7 +46,7 @@ h.Draw("E")
 f = TF1("f","[0]*1/[1]*exp(-x/[1])",0,20)
 
 f.SetParameter(1,tau)
-f.Setparameter(0,norm*h.GetBinWidth(1))
+f.SetParameter(0,norm*h.GetBinWidth(1))
 
 f.Draw("SAME")
 

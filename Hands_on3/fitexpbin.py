@@ -16,7 +16,7 @@ def flogl(tau):
 
 #Main
 h  = TH1D("h","",20,0,10)
-for line in open("exp.dat"):
+for line in open("exp.txt"):
     h.Fill(float(line))
 
 
