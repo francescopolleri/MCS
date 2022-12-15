@@ -27,14 +27,16 @@ Vector fInternal(unsigned int i,unsigned int j, double t, vector<MatPoint> p){
 }
 
 Vector fExternal(unsigned int i, double t, vector<MatPoint> p){
-    double k=0.25;
+    double k=1;
     double w=0.25;
     double A=0.1;
+    double beta=0.03;
 
     Vector F_el(-(k/p[i].Mass())*p[i].R().X(),0,0);
+    Vector F_visc(-2*beta*p[i].V().X()/p[i].Mass());
     Vector F_ext(A*sin(w*t)/p[i].Mass());
 
-    return F_el+F_ext;
+    return F_el + F_visc + F_ext;
 }
 
 int main(){ 
@@ -67,10 +69,13 @@ ode.Step(t);
 TGraph g;
 TCanvas c1("c1","",500,500);
 c1.cd();
-double size=10;
-gPad->DrawFrame(-1,-3,101,3);
+gPad->DrawFrame(-1,-2,101,2);
+gPad->SetTitle("x(t)");
 
+TLegend legend;
+legend.AddEntry("g","x(t)","p");
 g.SetPoint(0,0,ode.GetMatPoint(0).R().X());
+g.SetTitle("x(t)");
 g.Draw("P");
 
 gPad->Modified(); gPad->Update();
@@ -82,8 +87,6 @@ while(ode.T()<S){
     ode.Solve();
     g.SetPoint(g.GetN(),ode.T(),ode.GetMatPoint(0).R().X());
     gPad->Modified(); gPad->Update();
-
-    cout<<ode.GetMatPoint(0).R().X()<<endl;
 }
 
 c1.SaveAs("oscillatore.pdf");
