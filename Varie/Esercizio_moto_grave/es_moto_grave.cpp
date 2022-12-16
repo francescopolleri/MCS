@@ -26,8 +26,16 @@ Vector fInternal(unsigned int i,unsigned int j, double t, vector<MatPoint> p){
   return V;
 }
 
+//velocità di fuga=sqrt(2*M*G/r)
+//massa luna =7e22kg
+//distanza terra-luna=4e5
+
+//provare a mettere vy=10000
+
+
 Vector Gravity(Vector r){
-    double M=1000000;
+    double M=6e24;
+    double G=7e-11;
     double gx=r.X();
     double gy=r.Y();
     double gz=r.Z();
@@ -35,7 +43,7 @@ Vector Gravity(Vector r){
 
     Vector g(gx,gy,gz);
 
-    return g*(-1/pow(mod,3));
+    return g*(-(M*G)/pow(mod,3));
 }
 
 Vector fExternal(unsigned int i, double t, vector<MatPoint> p){
@@ -55,7 +63,7 @@ OdeSolver ode;
 ode.SetMethod(method_name);
 
 double m,x,vy;
-cout<<"Inserire valori di m,x e vy"<<endl;
+cout<<"Inserire valori di m,x e vy (Si consiglia: 7e22Kg, 4e5m, 3e4m/s)"<<endl;
 cin>>m;
 cin>>x;
 cin>>vy;
@@ -74,7 +82,7 @@ ode.Step(t);
 TGraph g;
 TCanvas c1("c1","",500,500);
 c1.cd();
-double size=10;
+double size=1e6;
 gPad->DrawFrame(-size,-size,size,size);
 
 g.SetPoint(0,ode.GetMatPoint(0).R().X(),ode.GetMatPoint(0).R().Y());
