@@ -26,15 +26,24 @@ Vector fInternal(unsigned int i,unsigned int j, double t, vector<MatPoint> p){
   return V;
 }
 
+//velocità di fuga=sqrt(2*M*G/r)
+//massa luna =7e22kg
+//distanza terra-luna=4e5
+
+//provare a mettere vy=10000
+
+
 Vector Gravity(Vector r){
-    double g=10;
-    double gx=0;
-    double gy=0;
-    double gz=-g;
+    double M=6e24;
+    double G=7e-11;
+    double gx=r.X();
+    double gy=r.Y();
+    double gz=r.Z();
+    double mod=r.Mod();
 
-    Vector gr(gx,gy,gz);
+    Vector g(gx,gy,gz);
 
-    return gr;
+    return g*(-(M*G)/pow(mod,3));
 }
 
 Vector fExternal(unsigned int i, double t, vector<MatPoint> p){
@@ -53,31 +62,30 @@ cin>>method_name;
 OdeSolver ode;
 ode.SetMethod(method_name);
 
-double m,z,vx,vz;
-cout<<"Inserire valori di m, z_0 e v_0z"<<endl;
+double m,x,vy;
+cout<<"Inserire valori di m,x e vy (Si consiglia: 7e22Kg, 4e5m, 3e4m/s)"<<endl;
 cin>>m;
-cin>>z;
-cin>>vz;
+cin>>x;
+cin>>vy;
 
 Particle prt(m,0);
-Vector s(0,0,z);
-Vector v(0,0,vz);
+Vector s(x,0,0);
+Vector v(0,vy,0);
 ode.SetMatPoint(MatPoint(prt,s,v));
 
 ode.fInternal = fInternal;
 ode.fExternal = fExternal; 
 
-double t=0.01;
+double t=0.5;
 ode.Step(t);
 
 TGraph g;
 TCanvas c1("c1","",500,500);
 c1.cd();
-double size=100;
-gPad->DrawFrame(0,-10000,100,10000);
+double size=1e6;
+gPad->DrawFrame(-size,-size,size,size);
 
-g.SetPoint(0,0,ode.GetMatPoint(0).R().Z());
-g.SetMarkerStyle(20);
+g.SetPoint(0,ode.GetMatPoint(0).R().X(),ode.GetMatPoint(0).R().Y());
 g.Draw("P");
 
 gPad->Modified(); gPad->Update();
@@ -87,12 +95,11 @@ double S=1000*t;
 
 while(ode.T()<S){
     ode.Solve();
-    g.SetPoint(g.GetN(),ode.T(),ode.GetMatPoint(0).R().Z());
+    g.SetPoint(g.GetN(),ode.GetMatPoint(0).R().X(),ode.GetMatPoint(0).R().Y());
+
     gPad->Modified(); gPad->Update();
-    cout<<ode.GetMatPoint(0).R().Z()<<" "<<ode.T()<<endl;
-    if(ode.GetMatPoint(0).R().Z()<=0){
-        break;
-    }
+
+    cout<<ode.GetMatPoint(0).R().X()<<endl;
 }
 
 app.Run(true);
