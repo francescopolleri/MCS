@@ -27,16 +27,17 @@ Vector fInternal(unsigned int i,unsigned int j, double t, vector<MatPoint> p){
 }
 
 Vector fExternal(unsigned int i, double t, vector<MatPoint> p){
-    double k=1;
+    double k=0.25;
     double w=0.25;
     double A=0.1;
     double beta=0.03;
 
     Vector F_el(-(k/p[i].Mass())*p[i].R().X(),0,0);
-    Vector F_visc(-2*beta*p[i].V().X()/p[i].Mass());
+    //Vector F_visc(-2*beta*p[i].V().X()/p[i].Mass());
     Vector F_ext(A*sin(w*t)/p[i].Mass());
 
-    return F_el + F_visc + F_ext;
+    //return F_el + F_ext + F_visc ;
+    return F_el + F_ext;
 }
 
 int main(){ 
