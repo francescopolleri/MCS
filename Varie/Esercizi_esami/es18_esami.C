@@ -1,6 +1,6 @@
 using namespace std;
 
-void es18_esami_A(){
+void es18_esami(){
 
 TRandom3 rnd;
 rnd.SetSeed(123456789);
