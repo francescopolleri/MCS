@@ -4,6 +4,7 @@
 #include <TApplication.h>
 #include <TH1D.h>
 #include <TMath.h>
+#include <TF1.h>
 
 using namespace std;
 
@@ -40,6 +41,11 @@ int main(){
   }
 
   cout<<"p-value="<<1-prob<<endl;  
+
+  TF1 *f=new TF1("f","[0]/[1]*exp(-x/[1])");
+  f->SetParameter(0,h->GetEntries()*h->GetBinWidth(2));
+  f->SetParameter(1,1);
+  h->Fit("f");
   app.Run(true);
 
 }

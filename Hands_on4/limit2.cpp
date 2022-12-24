@@ -4,6 +4,9 @@
 #include <TApplication.h>
 #include <TH1D.h>
 #include <TMath.h>
+#include <TCanvas.h>
+#include <TF1.h>
+#include <TTree.h>
 
 using namespace std;
 
@@ -12,6 +15,8 @@ int main(){
   double nbkg = 44.7; 
 
   TApplication app("app",NULL,NULL);
+  TTree t;
+  t.ReadFile("dati_highstat.dat","t/D");
 
   TH1D *h = new TH1D("h","",80,0,40);
   TH1D *hreg = new TH1D("hreg","",4,14,16);
