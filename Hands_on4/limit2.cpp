@@ -12,7 +12,7 @@ using namespace std;
 
 int main(){
 
-  double nbkg = 44.7; 
+  double nbkg = 44.7; //bkg sta per background
 
   TApplication app("app",NULL,NULL);
   TTree t;
@@ -40,19 +40,30 @@ int main(){
   hreg->Draw("SAME");
   hreg->SetFillColor(2);
 
-  //calcolare lower limit
+  //calcolare Upper Limit
 
   for (int ns=0;ns<1000;ns++){
       double prob=0;
       for(int j=0;j<=nobs;j++){
-	prob+= TMath::PoissonI(j,ns+nbkg);
+	    prob+= TMath::PoissonI(j,ns+nbkg);
       }
-      if(1-prob>0.05){   //Per avere UL devo mettere prob<0.05
+      if(prob<0.05){   //Per avere UL devo mettere prob<0.05  //Per avere LL devo mettere 1-prob>0.05
+      cout<<"UL (95% CL)= "<<ns<<endl;  
+      break;
+      }
+  }
+
+  //calcolare Lower Limit
+  for (int ns=0;ns<1000;ns++){
+      double prob=0;
+      for(int j=0;j<=nobs;j++){
+	    prob+= TMath::PoissonI(j,ns+nbkg);
+      }
+      if(1-prob>0.05){   //Per avere UL devo mettere prob<0.05  //Per avere LL devo mettere 1-prob>0.05
       cout<<"LL (95% CL)= "<<ns<<endl;  
       break;
       }
   }
-  
   app.Run(true);
 
 }
