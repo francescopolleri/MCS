@@ -39,7 +39,7 @@ t_ks, p_ks =stats.ks_2samp(x1,x2)
 print(p_ks)
 
 # test unbinned KS 1 pdf
-test = stats.expon(loc=0,scale=0.1)  #expon mi gnere una esponenziale
+test = stats.expon(loc=0,scale=0.1)  #expon mi genera una esponenziale
 t_ks1,p_ks1 = stats.kstest(x1,test.cdf) #il test di kolmogorov richiede una CDF
 print('Test KS1 dat1')
 print(p_ks1)

@@ -1,6 +1,9 @@
 import numpy as np
 from ROOT import *
 import math as m
+from scipy import stats
+import mplhep as hep
+import matplotlib.pyplot as plt
 
 rnd=TRandom3()
 rnd.SetSeed(123456789)
@@ -11,7 +14,9 @@ x0=10
 sigma=2
 delta=2
 
-h=TH1D("h","",100,0.,0.)
+h=TH1D("h","",80,0,20)
+
+x=np.array([])
 
 for i in range(0,N):
     x1=rnd.Gaus(x0,sigma)
@@ -20,28 +25,25 @@ for i in range(0,N):
     a=x1-delta
 
     s=rnd.Rndm()*(b-a)+a
-
+    
+    x=np.append(x,s)
     h.Fill(s)
 
-mu=h.GetMean()
-sig=h.GetRMS()
-norm=h.GetBinWidth(1)*h.GetEntries()
+area=h.GetEntries()*h.GetBinWidth(1)
 
-f=TF1("f","gaus")
-f.SetParameters(norm,mu,sig)
+#Per verificare che la distribuzione sia compatibile con una  
+#gaussiana faccio un test di Kolmogorov
 
-gStyle.SetOptFit();
+test=stats.norm(loc=x0,scale=np.sqrt(sigma**2+(delta**2)/3))  #loc è il valor medio
+t_ks,p_ks=stats.kstest(x,test.cdf)                            #scale è la sigma
 
-h.Fit("f")
-h.Draw()
+print(p_ks)
 
-print('mu = ',mu)
-print('sig =',sig)
-print('norm = ',norm)
+x=np.linspace(h.GetXaxis().GetXmin(),h.GetXaxis().GetXmax(),100)
 
-print('mu_fit = ',f.GetParameter(1),'+/-',f.GetParError(1))
-print('sig_fit =',f.GetParameter(2),'+/-',f.GetParError(2))
-print('norm_fit = ',f.GetParameter(0),'+/-',f.GetParError(0))
+hep.histplot(h,color='k')
+plt.plot(x,area*test.pdf(x),color='r')
+plt.show()
 
 gApplication.Run(True)
 
