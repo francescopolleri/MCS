@@ -37,4 +37,16 @@ minuit->GetParameter(1,b,eb);
 cout<<"a = "<<a<<" +/- "<<ea<<endl;
 cout<<"b = "<<b<<" +/- "<<eb<<endl;
 
+
+gMinuit->SetErrorDef(11.825);                        //SetErrorDef serve per settare il valore di DeltaChi2 relativo ad un 
+TGraph *Cont3=(TGraph*)gMinuit->Contour(100,0,1);    //certo numero di sigma. 
+Cont3->Draw("SAME");                                   //11.8->3 sigma; 2.3->2 sigma; 1->1 sigma
+gMinuit->SetErrorDef(2.3);
+TGraph *Cont2=(TGraph*)gMinuit->Contour(100,0,1);
+Cont2->Draw("SAME");
+gMinuit->SetErrorDef(1);
+TGraph *Cont1=(TGraph*)gMinuit->Contour(100,0,1);
+Cont1->Draw("SAME");
+
+
 }
