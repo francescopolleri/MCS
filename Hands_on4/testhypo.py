@@ -48,13 +48,13 @@ print('Test KS1 dat2')
 print(p_ks2)
 
 # test su esponenziale ignoto (con fit)
-f = TF1("exp","[0]/[1]*exp(-x/[1])",0,0.5);
+f = TF1("f","[0]/[1]*exp(-x/[1])",0,0.5);
 f.SetParameter(1,1)
 
-h1.Fit('exp')
+h1.Fit('f')
 print('p-value=',f.GetProb())   #il metodo GetProb() resituisce il p-value
 
-h2.Fit('exp')
+h2.Fit('f')
 print('p-value=',f.GetProb())
 
 
