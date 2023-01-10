@@ -17,11 +17,10 @@ void es4_esame21_1_19(){
 
     t->UnbinnedFit("f","t");
     
-     h->SetMarkerStyle(20);
-     h->Draw("E");
-
+    h->SetMarkerStyle(20);
+    h->Draw("E 0");
     f->SetParameter(0,h->GetEntries()*h->GetBinWidth(1));
-    f->Draw("same");
+    f->Draw("SAME");
 
 
 }
