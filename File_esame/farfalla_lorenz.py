@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def RK4(f,x,y,z,t,dt):
-    
+def RK4(f,x,y,z,t,dt):   #In questo caso con f intendo la velocità quindi 
+                         #questo problema va bene se ho una cosa del v=f(x,t)
     kx1=dt*f(x,y,z,t)[0]
     ky1=dt*f(x,y,z,t)[1]
     kz1=dt*f(x,y,z,t)[2]
