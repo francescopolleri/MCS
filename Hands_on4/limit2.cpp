@@ -34,6 +34,15 @@ int main(){
     }
   }
 
+  double p=0;
+  for(int i=0;i<nobs;i++){
+    p += TMath::PoissonI(i,nbkg);
+  }
+
+  double Z=TMath::NormQuantile(p);
+  cout<<"p-value = "<<1-p<<endl;
+  cout<<"# sigma = "<<Z<<endl;
+  
   cout<<"nobs="<<nobs<<endl;
   
   h->Draw();
