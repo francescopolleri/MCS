@@ -1,5 +1,5 @@
 #RUNGE-KUTTA 2
-
+'''
 import math as m
 import numpy as np
 import matplotlib.pyplot as plt
@@ -103,7 +103,7 @@ for i in range (0,n-1):
 plt.plot(t,x)
 plt.show()
 
-
+'''
 
 
 #NUMEROV
@@ -112,7 +112,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 
-N=1000
+N=100000
 
 def kappa(x):
     return x**2
@@ -125,9 +125,9 @@ def numerov(x):
         x[i] = (2*x[i-1]*(1-5*b(x[i-1]))-x[i-2]*(1+b(x[i-2])))/(1+b(x[i]))
     return x
 
-h=0.001
+h=0.1
 
-x=np.ones(N)
+x=np.ones(N)*0.01
 t=np.linspace(0,100,N)
 
 x=numerov(x)
