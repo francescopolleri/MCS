@@ -69,6 +69,7 @@ plt.plot(t,v)
 plt.show()
 
 '''
+'''
 #VERLET-VELOCITY
 
 import numpy as np
@@ -102,4 +103,40 @@ for i in range (0,n-1):
 plt.plot(t,x)
 plt.show()
 
-'''
+
+
+
+#NUMEROV
+
+import matplotlib.pyplot as plt
+import numpy as np
+import math
+
+N=1000
+
+def kappa(x):
+    return x**2
+
+def b(x):
+    return (h**2/12)*kappa(x)
+
+def numerov(x):
+    for i in range (1,N):
+        x[i] = (2*x[i-1]*(1-5*b(x[i-1]))-x[i-2]*(1+b(x[i-2])))/(1+b(x[i]))
+    return x
+
+h=0.001
+
+x=np.ones(N)
+t=np.linspace(0,100,N)
+
+x=numerov(x)
+
+plt.plot(t,x)
+plt.show()
+
+
+
+
+
+    
