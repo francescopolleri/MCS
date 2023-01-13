@@ -37,7 +37,7 @@ for i in range (0,N-1):
     T=np.append(T,t[i+1])
     Z=np.append(Z,z[i+1])
     V=np.append(V,vz[i+1])
-    if(np.abs(z[i+1]-h)<0.01*h):  #ho messo una percentuale dello 0.1% per fare in modo di disegnare piu' punti
+    if(np.abs(z[i+1]-h)<0.001*h):  #ho messo una percentuale dello 0.1% per fare in modo di disegnare piu' punti
         break
 
 
