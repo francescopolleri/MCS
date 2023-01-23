@@ -1,1 +1,1 @@
-# MCS
+# Computational and statistic methods laboratory
